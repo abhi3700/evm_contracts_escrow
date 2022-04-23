@@ -1,14 +1,14 @@
 # evm_contracts_escrow
 
-Escrow contract for EVM Blockchains
+**Escrow** contract for **EVM** Blockchains
 
 ## About
 
-* It's an Escrow contract.
-* [Instruction](./instruction.md).
-* Get the coverage report [here](./reports.md#coverage).
-* The Escrow SC is deployed in Rinkeby testnet. Check the details [here](./reports.md#deployment)
-* The Escrow SC is verified in Rinkeby testnet. Check the details [here](./reports.md#verify)
+* It's an **Escrow** contract.
+* [**Instruction**](./instruction.md).
+* Get the **coverage** report [here](./reports.md#coverage).
+* The Escrow SC is **deployed** in Rinkeby testnet. Check the details [here](./reports.md#deployment)
+* The Escrow SC is **verified** in Rinkeby testnet. Check the details [here](./reports.md#verify)
 
 ## Installation
 
@@ -77,6 +77,14 @@ Delete the smart contract artifacts, the coverage reports and the Hardhat cache:
 ```console
 yarn clean
 ```
+
+### Verify
+
+```console
+yarn verify <network_name> <deployed_contract_address> <constructor params>
+```
+
+For multiple arguments, follow this [guide](https://hardhat.org/plugins/nomiclabs-hardhat-etherscan.html#multiple-api-keys-and-alternative-block-explorers).
 
 ### Deploy
 
