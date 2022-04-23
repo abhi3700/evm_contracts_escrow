@@ -4,10 +4,11 @@ Escrow contract for EVM Blockchains
 
 ## About
 
-* It's a Escrow contract.
+* It's an Escrow contract.
 * [Instruction](./instruction.md).
-* Get the coverage report [here](./coverage_report.md).
-* The Escrow SC is deployed in Rinkeby testnet. Check the details [here](./deployments.md)
+* Get the coverage report [here](./reports.md#coverage).
+* The Escrow SC is deployed in Rinkeby testnet. Check the details [here](./reports.md#deployment)
+* The Escrow SC is verified in Rinkeby testnet. Check the details [here](./reports.md#verify)
 
 ## Installation
 
@@ -91,15 +92,7 @@ $ yarn hardhat deploy:Escrow --network localhost
 
 #### ETH Testnet - Rinkeby
 
-* Environment variables
-  * Create a `.env` file with its values:
-
-```
-DEPLOYER_PRIVATE_KEY=[YOUR_DEPLOYER_PRIVATE_KEY_without_0x]
-INFURA_API_KEY=[YOUR_INFURA_API_KEY_HERE]
-REPORT_GAS=<true_or_false>
-```
-
+* Environment variables: Create a `.env` file with its values in [.env.example](./.env.example)
 * Deploy the contracts
 
 ```console
@@ -108,15 +101,7 @@ yarn hardhat deploy:Escrow --network rinkeby
 
 #### ETH Mainnet
 
-* Environment variables
-  * Create a `.env` file with its values:
-
-```
-DEPLOYER_PRIVATE_KEY=[YOUR_DEPLOYER_PRIVATE_KEY_without_0x]
-INFURA_API_KEY=[YOUR_INFURA_API_KEY_HERE]
-REPORT_GAS=<true_or_false>
-```
-
+* Environment variables: Create a `.env` file with its values in [.env.example](./.env.example)
 * Deploy the contracts
 
 ```console

@@ -1,4 +1,6 @@
-# Coverage report
+# Reports
+
+## Coverage
 
 ```console
 ❯ yarn coverage                                                                                                                                                          ⏎
@@ -65,4 +67,38 @@ All files    |      100 |    92.86 |      100 |      100 |                |
 
 > Istanbul reports written to ./coverage/ and ./coverage.json
 ✨  Done in 9.88s.
+```
+
+## Deployment
+
+```console
+// M-1
+❯ npx hardhat run deployment/deploy.ts --network rinkeby                                                                                                                 ⏎
+No need to generate any newer typings.
+Escrow SC deployed to:  0x13fc1c6aA09B605Fe01184B063a829BDeF79ee3B
+The transaction that was sent to the network to deploy the escrow contract: 0x94d9fc5b176829b9446f4404ee3847a73fbb369bf1bf17ce877caa1f97b3faa8
+
+// M-2
+❯ yarn hardhat deploy:Escrow --network rinkeby                                                                                                                ⏎
+No need to generate any newer typings.
+Escrow SC deployed to:  0x13fc1c6aA09B605Fe01184B063a829BDeF79ee3B
+The transaction that was sent to the network to deploy the escrow contract: 0x94d9fc5b176829b9446f4404ee3847a73fbb369bf1bf17ce877caa1f97b3faa8
+```
+
+## Verify
+
+```console
+❯ yarn verify rinkeby 0x13fc1c6aA09B605Fe01184B063a829BDeF79ee3B                                                                                            ⏎
+yarn run v1.22.18
+$ hardhat verify --network rinkeby 0x13fc1c6aA09B605Fe01184B063a829BDeF79ee3B
+GDTK4AQP5PR6YYGCBS8DSWMRG1KGTNU1QF
+Nothing to compile
+No need to generate any newer typings.
+Successfully submitted source code for contract
+contracts/Escrow.sol:Escrow at 0x13fc1c6aA09B605Fe01184B063a829BDeF79ee3B
+for verification on Etherscan. Waiting for verification result...
+
+Successfully verified contract Escrow on Etherscan.
+https://rinkeby.etherscan.io/address/0x13fc1c6aA09B605Fe01184B063a829BDeF79ee3B#code
+✨  Done in 29.46s.
 ```

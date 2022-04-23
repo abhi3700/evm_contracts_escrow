@@ -39,6 +39,13 @@ if (!INFURA_API_KEY) {
   throw new Error("Please set your INFURA_API_KEY in a .env file");
 }
 
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
+if (!ETHERSCAN_API_KEY) {
+  throw new Error("Please set your ETHERSCAN_API_KEY in a .env file");
+}
+
+console.log(`${ETHERSCAN_API_KEY}`);
+
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async (args, hre) => {
@@ -90,9 +97,14 @@ const config: HardhatUserConfig = {
     artifacts: "./build/artifacts",
     cache: "./build/cache",
   },
-  // etherscan: {
-  //   apiKey: ETHERSCAN_API_KEY,
-  // },
+  etherscan: {
+    apiKey: ETHERSCAN_API_KEY,
+    // Source: https://hardhat.org/plugins/nomiclabs-hardhat-etherscan.html#multiple-api-keys-and-alternative-block-explorers
+    // apiKey: {
+    //   mainnet: ETHERSCAN_API_KEY,
+    //   rinkeby: ETHERSCAN_API_KEY,
+    // },
+  },
   gasReporter: {
     currency: "USD",
     gasPrice: 20,
