@@ -1,8 +1,6 @@
 import { ethers } from "hardhat";
 import chai from "chai";
-import {
-  /* BigNumber, */ Contract /* , Signer */ /* , Wallet */,
-} from "ethers";
+import { BigNumber, Contract /* , Signer */ /* , Wallet */ } from "ethers";
 import { /* deployContract, */ solidity } from "ethereum-waffle";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import {
@@ -160,6 +158,98 @@ export function testEscrow(): void {
 
         const escrowId = await escrowContract.getEscrowId();
         await expect(escrowId).to.eq(0);
+      });
+    });
+
+    describe("Refund", async () => {
+      beforeEach(async () => {
+        // const provider = ethers.provider;
+        // const balanceInEthBefore = await provider.getBalance(addr1.address);
+        // console.log(`${balanceInEthBefore}`);
+
+        // addr1 transfer 1 ether to contract
+        await expect(
+          escrowContract
+            .connect(addr1)
+            .depositFor(addr2.address, addr3.address, {
+              value: BigNumber.from("1000000000000000000"),
+            })
+        )
+          .to.emit(escrowContract, "DepositedFor")
+          .withArgs(
+            addr1.address,
+            addr2.address,
+            addr3.address,
+            BigNumber.from("1000000000000000000")
+          );
+
+        escrowId = await escrowContract.getEscrowId();
+        // const releasableAmt = await escrowContract.getReleasableAmt(escrowId);
+        // console.log(`${releasableAmt}`);
+      });
+
+      it("Succeeds with refund amount", async () => {
+        // payer's balance before release
+        const provider = ethers.provider;
+        const balanceInEthBefore = await provider.getBalance(addr1.address);
+        // console.log(`balance before refund: ${balanceInEthBefore}`);
+
+        // releaser permits the refund
+        await expect(escrowContract.connect(addr3).refund(escrowId))
+          .to.emit(escrowContract, "Refunded")
+          .withArgs(
+            addr1.address,
+            addr3.address,
+            BigNumber.from("1000000000000000000")
+          );
+
+        // payer's balance after release
+        const balanceInEthAfter = await provider.getBalance(addr1.address);
+        // console.log(`balance after refund: ${balanceInEthAfter}`);
+
+        // verify the payer's balance is increased by 3 wei
+        await expect(balanceInEthAfter.sub(balanceInEthBefore)).to.eq(
+          BigNumber.from("1000000000000000000")
+        );
+      });
+
+      it("Reverts with zero id", async () => {
+        // addr1 get refund with zero id
+        await expect(
+          escrowContract.connect(addr1).refund(0)
+        ).to.be.revertedWith("escrow id must be positive");
+      });
+
+      it("Reverts when the release amount is already released i.e. zero", async () => {
+        // releaser permits the refund
+        await expect(escrowContract.connect(addr3).refund(escrowId))
+          .to.emit(escrowContract, "Refunded")
+          .withArgs(
+            addr1.address,
+            addr3.address,
+            BigNumber.from("1000000000000000000")
+          );
+
+        // addr1 tries to get refund again
+        await expect(
+          escrowContract.connect(addr3).refund(escrowId)
+        ).to.be.revertedWith("No amount for refund");
+      });
+
+      it("Reverts when caller is not the releaser for an id", async () => {
+        // Someone else release amount to payee
+        await expect(
+          escrowContract.connect(addr4).refund(escrowId)
+        ).to.be.revertedWith("Caller must be releaser");
+      });
+
+      it("Reverts when paused", async () => {
+        escrowContract.pause();
+
+        // addr1 gets refund
+        await expect(
+          escrowContract.connect(addr3).refund(escrowId)
+        ).to.be.revertedWith("Pausable: paused");
       });
     });
 

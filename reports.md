@@ -3,7 +3,7 @@
 ## Coverage
 
 ```console
-❯ yarn coverage                                                                                                                                                          ⏎
+❯ yarn coverage
 yarn run v1.22.18
 $ hardhat coverage --solcoverjs ./.solcover.js --temp build --network hardhat
 
@@ -46,27 +46,33 @@ No need to generate any newer typings.
       ✔ Reverts with zero payee
       ✔ Reverts with zero releaser
       ✔ Reverts when paused
+    Refund
+      ✔ Succeeds with refund amount
+      ✔ Reverts with zero id
+      ✔ Reverts when the release amount is already released i.e. zero (45ms)
+      ✔ Reverts when caller is not the releaser for an id
+      ✔ Reverts when paused
     Release
       ✔ Succeeds with releasing amount
       ✔ Reverts with zero id
-      ✔ Reverts when the release amount is already released i.e. zero
+      ✔ Reverts when the release amount is already released i.e. zero (42ms)
       ✔ Reverts when caller is not the releaser for an id
       ✔ Reverts when paused
 
 
-  16 passing (1s)
+  21 passing (2s)
 
 -------------|----------|----------|----------|----------|----------------|
 File         |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |
 -------------|----------|----------|----------|----------|----------------|
- contracts/  |      100 |    92.86 |      100 |      100 |                |
-  Escrow.sol |      100 |    92.86 |      100 |      100 |                |
+ contracts/  |      100 |    90.91 |      100 |      100 |                |
+  Escrow.sol |      100 |    90.91 |      100 |      100 |                |
 -------------|----------|----------|----------|----------|----------------|
-All files    |      100 |    92.86 |      100 |      100 |                |
+All files    |      100 |    90.91 |      100 |      100 |                |
 -------------|----------|----------|----------|----------|----------------|
 
 > Istanbul reports written to ./coverage/ and ./coverage.json
-✨  Done in 9.88s.
+✨  Done in 10.38s.
 ```
 
 ## Deployment
@@ -75,30 +81,31 @@ All files    |      100 |    92.86 |      100 |      100 |                |
 // M-1
 ❯ npx hardhat run deployment/deploy.ts --network rinkeby                                                                                                                 ⏎
 No need to generate any newer typings.
-Escrow SC deployed to:  0x13fc1c6aA09B605Fe01184B063a829BDeF79ee3B
-The transaction that was sent to the network to deploy the escrow contract: 0x94d9fc5b176829b9446f4404ee3847a73fbb369bf1bf17ce877caa1f97b3faa8
+Escrow SC deployed to:  0x2B75cc9Bc375b53BbD86CbAFEB4CAd258E5bd7E5
+The transaction that was sent to the network to deploy the escrow contract: 0x0565479b1a79295b809d0301351a4b9755fa1eb03300f3c91c0f41ec1b11c65e
 
 // M-2
-❯ yarn hardhat deploy:Escrow --network rinkeby                                                                                                                ⏎
-No need to generate any newer typings.
-Escrow SC deployed to:  0x13fc1c6aA09B605Fe01184B063a829BDeF79ee3B
-The transaction that was sent to the network to deploy the escrow contract: 0x94d9fc5b176829b9446f4404ee3847a73fbb369bf1bf17ce877caa1f97b3faa8
+❯ yarn hardhat deploy:Escrow --network rinkeby
+yarn run v1.22.18
+$ /Users/abhi3700/F/coding/github_repos/evm_contracts_escrow/node_modules/.bin/hardhat deploy:Escrow --network rinkeby
+Escrow SC deployed to:  0x2B75cc9Bc375b53BbD86CbAFEB4CAd258E5bd7E5
+The transaction that was sent to the network to deploy the escrow contract: 0x0565479b1a79295b809d0301351a4b9755fa1eb03300f3c91c0f41ec1b11c65e
+✨  Done in 7.02s.
 ```
 
 ## Verify
 
 ```console
-❯ yarn verify rinkeby 0x13fc1c6aA09B605Fe01184B063a829BDeF79ee3B                                                                                            ⏎
+❯ yarn verify rinkeby 0x2B75cc9Bc375b53BbD86CbAFEB4CAd258E5bd7E5
 yarn run v1.22.18
-$ hardhat verify --network rinkeby 0x13fc1c6aA09B605Fe01184B063a829BDeF79ee3B
-GDTK4AQP5PR6YYGCBS8DSWMRG1KGTNU1QF
+$ hardhat verify --network rinkeby 0x2B75cc9Bc375b53BbD86CbAFEB4CAd258E5bd7E5
 Nothing to compile
 No need to generate any newer typings.
 Successfully submitted source code for contract
-contracts/Escrow.sol:Escrow at 0x13fc1c6aA09B605Fe01184B063a829BDeF79ee3B
+contracts/Escrow.sol:Escrow at 0x2B75cc9Bc375b53BbD86CbAFEB4CAd258E5bd7E5
 for verification on Etherscan. Waiting for verification result...
 
 Successfully verified contract Escrow on Etherscan.
-https://rinkeby.etherscan.io/address/0x13fc1c6aA09B605Fe01184B063a829BDeF79ee3B#code
-✨  Done in 29.46s.
+https://rinkeby.etherscan.io/address/0x2B75cc9Bc375b53BbD86CbAFEB4CAd258E5bd7E5#code
+✨  Done in 35.69s.
 ```

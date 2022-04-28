@@ -32,6 +32,7 @@ contract Escrow is Ownable, Pausable, ReentrancyGuard {
     // ==========Events=============================================
     event DepositedFor( address indexed payer, address indexed payee, address releaser, uint256 amount);
     event Released( address indexed payee, address indexed releaser, uint256 amount);
+    event Refunded( address indexed payer, address indexed releaser, uint256 amount);
 
     // ==========Constructor========================================
     // constructor() {}
@@ -57,6 +58,22 @@ contract Escrow is Ownable, Pausable, ReentrancyGuard {
         escrowMap[escrowId].releaser = _releaser;
 
         emit DepositedFor(_msgSender(), _payee, _releaser, msg.value);
+    }
+
+    // -------------------------------------------------------------
+    function refund(uint256 _id) external whenNotPaused nonReentrant {
+        require(_id > 0, "escrow id must be positive");
+
+        EscrowDetails memory info = escrowMap[_id];
+        require(info.amount > 0, "No amount for refund");
+        require(info.releaser == _msgSender(), "Caller must be releaser");
+
+        escrowMap[_id].amount = 0;
+
+        (bool success, ) = info.payer.call{value: info.amount}(new bytes(0));
+        require(success, "Transfer failed.");
+
+        emit Refunded(info.payer, info.releaser, info.amount);
     }
 
     // -------------------------------------------------------------
