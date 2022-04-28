@@ -4,7 +4,7 @@
 
 ## About
 
-* It's an **Escrow** contract.
+* It's an **Escrow** contract with `deposit` (by payer), `release` (by releaser), `refund` (by releaser) functions. 
 * [**Instruction**](./instruction.md).
 * Get the **coverage** report [here](./reports.md#coverage).
 * The Escrow SC is **deployed** in Rinkeby testnet. Check the details [here](./reports.md#deployment)

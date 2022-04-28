@@ -61,6 +61,9 @@ contract Escrow is Ownable, Pausable, ReentrancyGuard {
     }
 
     // -------------------------------------------------------------
+    /// @notice Refund Amount from Escrow
+    /// @dev releaser allows refund to payer
+    /// @param _id escrow id
     function refund(uint256 _id) external whenNotPaused nonReentrant {
         require(_id > 0, "escrow id must be positive");
 
